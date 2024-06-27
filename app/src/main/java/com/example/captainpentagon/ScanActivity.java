@@ -37,7 +37,7 @@ public class ScanActivity extends AppCompatActivity {
     ImageButton btnToHome;
     static TextView scanDetail;
 
-    private static final String SERVER_URL = "http://10.0.2.2:5000/analyze"; // Update with your server address
+    private static final String SERVER_URL = "https://malware-detect-e2fec6effe08.herokuapp.com/analyze"; // Update with your server address
     private static final int REQUEST_PERMISSION = 123;
     private static List<String> scanResults = new ArrayList<>();
 
