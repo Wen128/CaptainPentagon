@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 // Store data
                 editor.putString("name", name);
+                editor.putString("level", selectedField);
+                editor.putBoolean("setup", true);
+
                 // Commit the changes
                 editor.apply();
                 startActivity(intent);

@@ -36,6 +36,7 @@ public class AndroidChat extends AppCompatActivity {
     private LinearLayout chatContainer;
     private EditText etMessage;
     private String userName;
+    private String level;
     private OkHttpClient client;
     private static final String API_URL = "https://qwen.pythonanywhere.com/ask";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -56,6 +57,8 @@ public class AndroidChat extends AppCompatActivity {
         // Retrieve data from the Intent
         Intent intent = getIntent();
         userName = intent.getStringExtra("NAME");
+        level = intent.getStringExtra("level");
+
 
         // Initialize views and variables
         chatContainer = findViewById(R.id.chatContainer);
@@ -92,7 +95,7 @@ public class AndroidChat extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         // Calculate font size as 1/12 of the screen height
-        float fontSize = screenHeight / 12;
+        float fontSize = screenHeight / 100;
 
         // Set the font size
         editText.setTextSize(fontSize);
@@ -179,6 +182,8 @@ public class AndroidChat extends AppCompatActivity {
         try {
             jsonObject.put("question", message);
             jsonObject.put("name", userName);
+            jsonObject.put("level", level);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

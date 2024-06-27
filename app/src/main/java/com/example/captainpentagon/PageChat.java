@@ -23,6 +23,7 @@ public class PageChat extends AppCompatActivity {
        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 // Retrieve data
             String userName = sharedPreferences.getString("name", "User123");
+        String level = sharedPreferences.getString("level", "1");
 
         // Display welcome message
         TextView textView = findViewById(R.id.pagemainchat);
@@ -33,6 +34,7 @@ public class PageChat extends AppCompatActivity {
             Intent androidChatIntent = new Intent(PageChat.this, AndroidChat.class);
 
             androidChatIntent.putExtra("NAME", userName); // Pass the user name to AndroidChat
+            androidChatIntent.putExtra("level", level);
             startActivity(androidChatIntent);
             finish(); // Finish PageChat activity so user can't go back to it
         }, 2000);
