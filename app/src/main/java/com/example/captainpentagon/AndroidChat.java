@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,14 +47,19 @@ public class AndroidChat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        FrameLayout messageContainer = findViewById(R.id.messageContainer);
+        adjustMessageContainerHeight(messageContainer);
+
+        etMessage = findViewById(R.id.etMessage);
+        setEditTextFontSize(etMessage);
+
         // Retrieve data from the Intent
         Intent intent = getIntent();
         userName = intent.getStringExtra("NAME");
+
         // Initialize views and variables
         chatContainer = findViewById(R.id.chatContainer);
-        etMessage = findViewById(R.id.etMessage);
         ImageButton btnSend = findViewById(R.id.btnSend);
-        ImageButton btnHome = findViewById(R.id.btnHome); // Initialize the home button
         client = new OkHttpClient();
 
         // Send initial message from AI when activity starts
@@ -77,12 +84,31 @@ public class AndroidChat extends AppCompatActivity {
             }
         });
 
-        // Set click listener for Home button
-        btnHome.setOnClickListener(v -> {
-            Intent homeIntent = new Intent(AndroidChat.this, HomeActivity.class); // Replace HomeActivity with your actual homepage activity
-            startActivity(homeIntent);
-            finish(); // Optionally finish the current activity
-        });
+    }
+
+    private void setEditTextFontSize(EditText editText) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenHeight = displayMetrics.heightPixels;
+
+        // Calculate font size as 1/12 of the screen height
+        float fontSize = screenHeight / 12;
+
+        // Set the font size
+        editText.setTextSize(fontSize);
+    }
+
+    private void adjustMessageContainerHeight(FrameLayout messageContainer) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenHeight = displayMetrics.heightPixels;
+
+        // Calculate messageContainer height as 1/10 of the screen height
+        int messageContainerHeight = screenHeight / 10;
+
+        // Set the height of messageContainer
+        messageContainer.getLayoutParams().height = messageContainerHeight;
+        messageContainer.requestLayout();
     }
 
     // Method to send initial message from AI
@@ -193,6 +219,6 @@ public class AndroidChat extends AppCompatActivity {
                     });
                 }
             }
-   });
-}
+        });
+    }
 }
