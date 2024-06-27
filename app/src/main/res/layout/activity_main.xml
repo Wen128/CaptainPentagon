@@ -26,13 +26,14 @@
         android:id="@+id/backgroundView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="-30dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/cricle_backgroud"
-        app:layout_constraintBottom_toBottomOf="@id/guidelineCenter"
+        app:layout_constraintBottom_toBottomOf="@id/nameInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/logoPhoto" />
 
+    <!-- Name Input -->
     <!-- Name Input -->
     <EditText
         android:id="@+id/nameInput"
@@ -81,6 +82,7 @@
         android:textSize="30sp"
         app:layout_constraintTop_toTopOf="@id/guidelineQuarter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
