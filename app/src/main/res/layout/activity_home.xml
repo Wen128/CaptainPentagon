@@ -52,53 +52,80 @@
                 android:text="TextView"
                 android:textSize="34sp" />
 
-            <HorizontalScrollView
-                android:id="@+id/horizontalScrollView"
-                android:layout_width="wrap_content"
-                android:layout_height="280dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="-20dp"
-                android:elevation="3dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="#00FFFFFF"
+                    android:contentDescription="1"
                     android:elevation="3dp"
-                    android:orientation="horizontal">
+                    app:srcCompat="@drawable/navbutton1"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/centerSpacer1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_percent="0.3"
+                    android:scaleType="fitCenter"/>
 
-                    <ImageButton
-                        android:id="@+id/imageButton"
-                        android:layout_width="250dp"
-                        android:layout_height="250dp"
-                        android:layout_marginTop="26dp"
-                        android:background="#00FFFFFF"
-                        android:contentDescription="1"
-                        android:elevation="3dp"
-                        app:srcCompat="@drawable/navbutton1" />
+                <View
+                    android:id="@+id/centerSpacer1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.0005"
+                    app:layout_constraintStart_toEndOf="@+id/imageButton"
+                    app:layout_constraintEnd_toStartOf="@+id/imageButton2" />
 
-                    <ImageButton
-                        android:id="@+id/imageButton2"
-                        android:layout_width="250dp"
-                        android:layout_height="250dp"
-                        android:layout_marginTop="26dp"
-                        android:background="#00FFFFFF"
-                        android:contentDescription="2"
-                        android:elevation="3dp"
-                        app:srcCompat="@drawable/navbutton2" />
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="#00FFFFFF"
+                    android:contentDescription="2"
+                    android:elevation="3dp"
+                    app:srcCompat="@drawable/navbutton2"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toEndOf="@+id/centerSpacer1"
+                    app:layout_constraintEnd_toStartOf="@+id/centerSpacer2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_percent="0.3"
+                    android:scaleType="fitCenter"/>
 
-                    <ImageButton
-                        android:id="@+id/imageButton3"
-                        android:layout_width="250dp"
-                        android:layout_height="250dp"
-                        android:layout_marginTop="26dp"
-                        android:layout_weight="1"
-                        android:background="#00FFFFFF"
-                        android:contentDescription="3"
-                        android:elevation="3dp"
-                        app:srcCompat="@drawable/navbutton3" />
+                <View
+                    android:id="@+id/centerSpacer2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.0005"
+                    app:layout_constraintStart_toEndOf="@+id/imageButton2"
+                    app:layout_constraintEnd_toStartOf="@+id/imageButton3" />
 
-                </LinearLayout>
-            </HorizontalScrollView>
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="#00FFFFFF"
+                    android:contentDescription="3"
+                    android:elevation="3dp"
+                    app:srcCompat="@drawable/navbutton3"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toEndOf="@+id/centerSpacer2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_percent="0.3"
+                    android:scaleType="fitCenter"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/textView3"
