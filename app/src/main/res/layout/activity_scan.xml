@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:foregroundTint="#2854F2"
+    tools:context=".MainActivity">
+
+
+    <TextView
+        android:id="@+id/scanDetails"
+        android:layout_width="271dp"
+        android:layout_height="105dp"
+        android:layout_marginBottom="136dp"
+        android:text="Scanning system...."
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar10"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="271dp"
+        android:layout_height="283dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="176dp"
+        android:layout_marginEnd="70dp"
+        android:background="#00FFFFFF"
+        android:foregroundTint="#1976D2"
+        android:indeterminateTint="#1976D2"
+        android:mirrorForRtl="true"
+        android:progressTint="#1976D2"
+        android:rotation="174"
+        android:secondaryProgressTint="#1976D2"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="312dp"
+        android:text="Scanning...."
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnToHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="#00FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/homebotton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

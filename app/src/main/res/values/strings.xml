@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">CaptainPentagon</string>
+    <string name="next">Next</string>
+    <string name="enter_you_name">Enter you name</string>
+    <string name="send" />
+    <string-array name="Select_your_field">
+
+        <item>Knowledge of Cybersecurity</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string name="greeting">Welcome</string>
+</resources>
