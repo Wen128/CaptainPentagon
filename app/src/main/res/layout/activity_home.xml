@@ -38,7 +38,8 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
                 android:elevation="3dp"
-                android:text="Welcome"
+                android:text="Welcome,"
+                android:textColor="#5274ED"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -47,17 +48,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="-10dp"
                 android:elevation="3dp"
                 android:text="TextView"
-                android:textSize="34sp" />
+                android:textSize="34sp"
+                android:textStyle="bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp">
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp">
 
                 <ImageButton
                     android:id="@+id/imageButton"
@@ -132,9 +134,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:elevation="3dp"
                 android:text="News"
+                android:textColor="#5274ED"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 

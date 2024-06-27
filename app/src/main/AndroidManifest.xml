@@ -38,6 +38,9 @@
             android:name=".ScanResultActivity"
             tools:ignore="Instantiatable"/>
         <activity
+            android:name=".ResultActivity"
+            tools:ignore="Instantiatable"/>
+        <activity
             android:name=".QuizActivity"
             tools:ignore="Instantiatable"/>
         <activity

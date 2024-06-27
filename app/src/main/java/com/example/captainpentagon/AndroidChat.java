@@ -132,12 +132,12 @@ public class AndroidChat extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
-        messageLayout.setPadding(5, 20, 5, 20);
+        messageLayout.setPadding(0, 10, 0, 10);
 
         TextView textView = new TextView(this);
         textView.setText(message);
         textView.setTextSize(20);
-        textView.setPadding(40, 20, 40, 10);
+        textView.setPadding(40, 10, 40, 10);
 
         LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -151,10 +151,10 @@ public class AndroidChat extends AppCompatActivity {
         if (sender.equals("AI")) {
             ImageView imageView = new ImageView(this);
             imageView.setLayoutParams(new LinearLayout.LayoutParams(
-                    200, // width
-                    200 // height
+                    160, // width
+                    160 // height
             ));
-            imageView.setImageResource(R.drawable.logoai); // Set AI's avatar
+            imageView.setImageResource(R.drawable.bot); // Set AI's avatar
 
             messageLayout.setGravity(Gravity.START);
             messageLayout.addView(imageView);

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class QuizMainActivity extends AppCompatActivity {
@@ -14,10 +17,10 @@ public class QuizMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_main);
 
-        Button easyButton = findViewById(R.id.easy_button);
-        Button mediumButton = findViewById(R.id.normal_button);
-        Button hardButton = findViewById(R.id.hard_button);
-        ImageButton btnHome = findViewById(R.id.btnHome); // Find the ImageButton btnHome
+        TextView easyButton = findViewById(R.id.easy_button);
+        TextView mediumButton = findViewById(R.id.normal_button);
+        TextView hardButton = findViewById(R.id.hard_button);
+        ImageView app_icon = findViewById(R.id.app_icon);
 
         easyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,15 +43,6 @@ public class QuizMainActivity extends AppCompatActivity {
             }
         });
 
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate to PageChat activity
-                Intent homeIntent = new Intent(QuizMainActivity.this, QuizSplashActivity.class);
-                startActivity(homeIntent);
-                finish(); // Optionally finish the current activity
-            }
-        });
     }
 
     private void startQuiz(String difficulty) {
