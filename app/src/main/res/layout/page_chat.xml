@@ -1,40 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="@drawable/colour">
 
+    <!-- Guideline for screen height half -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHalfHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <!-- View -->
     <View
-        android:layout_width="match_parent"
-        android:layout_height="424dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="442dp"
-        android:background="@drawable/image" />
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/image"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHalfHeight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- ImageView -->
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="415dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="-1dp"
-        android:layout_marginBottom="411dp"
-        android:background="@drawable/aifact" />
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/aifact"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHalfHeight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- TextView -->
     <TextView
         android:id="@+id/pagemainchat"
         android:layout_width="291dp"
         android:layout_height="189dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="136dp"
+        android:background="#80000000"
+        android:text="Sample Text"
         android:textStyle="bold"
         android:textColor="#ffffff"
         android:gravity="center"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guidelineHalfHeight" />
 
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
