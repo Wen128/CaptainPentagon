@@ -1,5 +1,4 @@
 package com.example.captainpentagon;
-
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -94,27 +93,20 @@ public class QuizActivity extends AppCompatActivity {
         endButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (timer != null) {
+                showResult();
+
                     timer.cancel();
-                }
-                if (tickingSoundPlayer != null) {
                     tickingSoundPlayer.stop();
                     tickingSoundPlayer.release();
                     tickingSoundPlayer = null;
-                }
-                if (timeUpSoundPlayer != null) {
+
                     timeUpSoundPlayer.release();
                     timeUpSoundPlayer = null;
-                }
-                if (correctSoundPlayer != null) {
                     correctSoundPlayer.release();
                     correctSoundPlayer = null;
-                }
-                if (wrongSoundPlayer != null) {
                     wrongSoundPlayer.release();
                     wrongSoundPlayer = null;
-                }
-                showResult();
+
             }
         });
 
@@ -163,7 +155,7 @@ public class QuizActivity extends AppCompatActivity {
                 progressBar.setProgress(progress);
 
                 // Play ticking sound
-                if (!tickingSoundPlayer.isPlaying()) {
+                if (tickingSoundPlayer != null && !tickingSoundPlayer.isPlaying()) {
                     tickingSoundPlayer.start();
                 }
             }
@@ -172,9 +164,18 @@ public class QuizActivity extends AppCompatActivity {
             public void onFinish() {
                 Toast.makeText(QuizActivity.this, "Time's up!", Toast.LENGTH_SHORT).show();
                 showCorrectAnswer();
-                tickingSoundPlayer.stop();
-                tickingSoundPlayer.release();
-                tickingSoundPlayer = null;
+//                tickingSoundPlayer.stop();
+//                tickingSoundPlayer.release();
+//                tickingSoundPlayer = null;
+
+                if (tickingSoundPlayer != null && tickingSoundPlayer.isPlaying()) {
+                    tickingSoundPlayer.stop();
+                    tickingSoundPlayer.release();
+                    tickingSoundPlayer = null;
+
+//            tickingSoundPlayer.prepareAsync();
+                }
+
 
                 // Play time-up sound
                 timeUpSoundPlayer = MediaPlayer.create(QuizActivity.this, R.raw.time_up);
@@ -263,8 +264,8 @@ public class QuizActivity extends AppCompatActivity {
                     wrongSoundPlayer.release();
                 }
             }
-       },2000);
-}
+        },2000);
+    }
 
 
     private void showCorrectAnswer() {
@@ -408,6 +409,7 @@ public class QuizActivity extends AppCompatActivity {
             questions.add(new Question("What is the main function of a computer virus?", "Replicate and spread", "Heal system files", "Protect data", "Replicate and spread"));
             questions.add(new Question("Which malware type is known for encrypting files?", "Ransomware", "Adware", "Spyware", "Ransomware"));
         }
+
         else if (difficulty.equals("normal")) {
             questions.add(new Question("This robot malware can perform a variety of automated tasks initiated by a master computer", "Phisher", "Spyware", "Botnet", "Botnet"));
             questions.add(new Question("An acronym used for unwanted programs such as Trojans, spyware, and other malware", "UNP", "UPU", "PUP", "PUP"));
@@ -574,11 +576,11 @@ public class QuizActivity extends AppCompatActivity {
             questions.add(new Question("What is a rootkit?", "A type of malware", "An antivirus program", "A hardware device", "A type of malware"));
             questions.add(new Question("What is a logic bomb?", "Malicious code that executes based on a trigger", "A virus that spreads rapidly", "An exploit used to steal passwords", "Malicious code that executes based on a trigger"));
 
-            }
+        }
 
 
 
-            return questions;
+        return questions;
     }
 
     private void showResult() {
@@ -588,6 +590,57 @@ public class QuizActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        // 恢复MediaPlayer播放
+        if (tickingSoundPlayer != null && !tickingSoundPlayer.isPlaying()) {
+            tickingSoundPlayer.start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+            tickingSoundPlayer.stop();
+            tickingSoundPlayer.release();
+            tickingSoundPlayer = null;
+
+//            tickingSoundPlayer.prepareAsync();
+            correctSoundPlayer.stop();
+            correctSoundPlayer.release();
+            correctSoundPlayer = null;
+//            correctSoundPlayer.prepareAsync();
+            wrongSoundPlayer.stop();
+            wrongSoundPlayer.release();
+            wrongSoundPlayer = null;
+//            wrongSoundPlayer.prepareAsync();
+            timeUpSoundPlayer.stop();
+            timeUpSoundPlayer.release();
+            timeUpSoundPlayer = null;
+//            timeUpSoundPlayer.prepareAsync();
+
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to leave the quiz?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // If the user confirms, call the super method to perform the default action
+//                        super.onBackPressed();
+                        Intent intent = new Intent(QuizActivity.this, QuizMainActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
 }
 
+}

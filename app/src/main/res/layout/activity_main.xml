@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fcf5ff">
@@ -22,6 +23,9 @@
         app:layout_constraintGuide_percent="0.78" />
 
     <!-- Background View -->
+
+    <!-- Name Input -->
+    <!-- Name Input -->
     <View
         android:id="@+id/backgroundView"
         android:layout_width="0dp"
@@ -30,60 +34,60 @@
         android:background="@drawable/cricle_backgroud"
         app:layout_constraintBottom_toBottomOf="@id/nameInput"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/logoPhoto" />
+        app:layout_constraintTop_toTopOf="@id/logoPhoto"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <!-- Name Input -->
-    <!-- Name Input -->
     <EditText
         android:id="@+id/nameInput"
         android:layout_width="340dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="40dp"
         android:background="@drawable/edit_text_border"
         android:gravity="center"
         android:hint="Enter your name"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="@id/logoPhoto"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Logo -->
     <ImageView
         android:id="@+id/logoPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-90dp"
+        android:layout_marginTop="-70dp"
         android:contentDescription="logo"
         android:src="@drawable/logoaip"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Spinner -->
     <Spinner
         android:id="@+id/spinner_field"
         android:layout_width="350dp"
         android:layout_height="80dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/edit_text_border"
         android:spinnerMode="dropdown"
-        app:layout_constraintTop_toBottomOf="@id/nameInput"
-        app:layout_constraintBottom_toTopOf="@id/NextButton"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameInput" />
 
     <!-- Next Button -->
     <Button
         android:id="@+id/NextButton"
         android:layout_width="176dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:background="@drawable/icon_backgroup"
         android:text="Next"
         android:textSize="30sp"
-        app:layout_constraintTop_toTopOf="@id/guidelineQuarter"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_field" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
