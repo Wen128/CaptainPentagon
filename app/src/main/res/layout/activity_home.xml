@@ -38,10 +38,11 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
                 android:elevation="3dp"
+                android:fontFamily="serif"
                 android:text="Welcome,"
                 android:textColor="#5274ED"
                 android:textSize="34sp"
-                android:textStyle="bold" />
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/nameView"
@@ -50,30 +51,35 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="-10dp"
                 android:elevation="3dp"
+                android:fontFamily="serif"
                 android:text="TextView"
                 android:textSize="34sp"
-                android:textStyle="bold" />
+                android:textStyle="bold|italic" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp">
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/radius"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:padding="10dp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardView1"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="20dp"
                     app:cardBackgroundColor="#00FFFFFF"
+                    app:cardCornerRadius="20dp"
                     app:cardElevation="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/cardView2"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageButton
                         android:id="@+id/imageButton1"
@@ -91,14 +97,14 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="20dp"
                     app:cardBackgroundColor="#00FFFFFF"
+                    app:cardCornerRadius="20dp"
                     app:cardElevation="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintStart_toEndOf="@+id/cardView1"
                     app:layout_constraintEnd_toStartOf="@+id/cardView3"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintStart_toEndOf="@+id/cardView1"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageButton
                         android:id="@+id/imageButton2"
@@ -116,14 +122,14 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="20dp"
                     app:cardBackgroundColor="#00FFFFFF"
+                    app:cardCornerRadius="20dp"
                     app:cardElevation="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintStart_toEndOf="@+id/cardView2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintStart_toEndOf="@+id/cardView2"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageButton
                         android:id="@+id/imageButton3"
@@ -145,7 +151,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
                 android:elevation="3dp"
-                android:text="News"
+                android:text="Latest News"
                 android:textColor="#5274ED"
                 android:textSize="34sp"
                 android:textStyle="bold" />

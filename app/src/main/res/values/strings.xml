@@ -6,11 +6,9 @@
     <string-array name="Select_your_field">
 
         <item>Knowledge of Cybersecurity</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
+        <item>Beginner</item>
+        <item>Advance</item>
+        <item>Pro</item>
     </string-array>
     <string name="greeting">Welcome</string>
 </resources>

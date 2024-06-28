@@ -1,5 +1,4 @@
 package com.example.captainpentagon;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,20 +9,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ResultActivity extends AppCompatActivity {
 
-    private TextView resultTextView, feedbackTextView, nameTextView;
+    private TextView resultTextView, feedbackTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
         resultTextView = findViewById(R.id.result_text);
         feedbackTextView = findViewById(R.id.feedback_text);
-        nameTextView = findViewById(R.id.name_text);
 
+        TextView textView = findViewById(R.id.name_text);
+        // Get SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 // Retrieve data
-        String userName = sharedPreferences.getString("name", "User123");
-        nameTextView.setText(userName);
+        String name = sharedPreferences.getString("name", "User123");
+
+        textView.setText(name);
 
 
         // Get the name and score from the intent
@@ -47,5 +49,5 @@ public class ResultActivity extends AppCompatActivity {
             feedback = "Well Done! Looks like you are a pro in Malware";
         }
         feedbackTextView.setText(feedback);
-    }
+}
 }
