@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.List;
 
@@ -35,13 +36,24 @@ public class ScanResultActivity extends AppCompatActivity {
 
         View safemeter = findViewById(R.id.safemeter);
         View errormeter = findViewById(R.id.errormeter);
+        TextView softwareTextView = findViewById(R.id.software); // 假设这是你要调整的TextView
 
         if (scanResults != null && !scanResults.isEmpty()) {
+            // 当有扫描结果时，显示错误仪表盘，隐藏安全仪表盘
             safemeter.setVisibility(View.GONE);
             errormeter.setVisibility(View.VISIBLE);
+            // 设置TextView的约束，使其顶部与errormeter的底部对齐
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) softwareTextView.getLayoutParams();
+            layoutParams.topToBottom = R.id.errormeter;
+            softwareTextView.setLayoutParams(layoutParams);
         } else {
+            // 当没有扫描结果时，显示安全仪表盘，隐藏错误仪表盘
             safemeter.setVisibility(View.VISIBLE);
             errormeter.setVisibility(View.GONE);
+            // 设置TextView的约束，使其顶部与safemeter的底部对齐
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) softwareTextView.getLayoutParams();
+            layoutParams.topToBottom = R.id.safemeter;
+            softwareTextView.setLayoutParams(layoutParams);
         }
 
         // Override the back button press

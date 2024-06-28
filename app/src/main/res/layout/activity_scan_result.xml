@@ -1,121 +1,157 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
+    <!-- View at the top half of the screen (textV) -->
     <View
-        app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/textV"
-        android:layout_width="377dp"
-        android:layout_height="287dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="21dp"
-        android:layout_marginBottom="376dp"
-        android:background="@drawable/shape" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintWidth_percent="0.9" />
 
-
+    <!-- TextView above textV -->
     <TextView
-        android:layout_width="363dp"
         android:id="@+id/text"
-        android:layout_height="260dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginBottom="388dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:text="Scanning completed"
-        android:gravity="center_horizontal"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:textSize="40dp"
-        android:background="@drawable/shape_white" />
-
-    <View
-        android:layout_width="377dp"
-        android:layout_height="310dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="21dp"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/shape" />
-
-    <TextView
-        android:layout_width="361dp"
-        android:layout_height="286dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="28dp"
-        android:text="Scanning result"
         android:gravity="center_horizontal"
-        android:textStyle="bold"
-        android:textSize="35dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/shape_white" />
+        android:background="@drawable/shape_white"
+        app:layout_constraintBottom_toBottomOf="@+id/textV"
+        app:layout_constraintEnd_toEndOf="@+id/textV"
+        app:layout_constraintStart_toStartOf="@+id/textV"
+        app:layout_constraintTop_toTopOf="@+id/textV"
+        app:layout_constraintHeight_percent="0.23"
+        app:layout_constraintWidth_percent="0.85" />
 
-    <ImageView
-        android:id="@+id/scan"
-        android:layout_width="wrap_content"
-        android:layout_height="136dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="top"
-        android:layout_marginEnd="117dp"
-        android:layout_marginBottom="407dp"
-        android:contentDescription="scan"
-        android:src="@drawable/scanningc" />
-
-    <TextView
+    <!-- Guideline for positioning at half screen height -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="106dp"
-        android:layout_marginBottom="161dp"
-        android:text="suspicious software"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
 
 
+    <!-- TextView (scanningtitle) -->
+    <TextView
+        android:id="@+id/scanningtitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Scanning result"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.6"
+        app:layout_constraintTop_toBottomOf="@+id/textV"/>
+
+    <!-- ScrollView above software (malwareview) -->
     <ScrollView
-        android:layout_width="295dp"
-        android:layout_height="90dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="55dp"
-        android:layout_marginBottom="63dp">
+        android:id="@+id/malwareview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/software">
 
         <TextView
             android:id="@+id/resultTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="@+id/malwareview"
+            app:layout_constraintStart_toStartOf="@+id/malwareview"/>
     </ScrollView>
 
+    <!-- TextView (software) aligned to top of errormeter -->
+    <TextView
+        android:id="@+id/software"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Suspicious software"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/errormeter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- ImageView (scan) centered and sized based on screen height -->
+    <ImageView
+        android:id="@+id/scan"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Scan"
+        android:scaleType="fitCenter"
+        android:src="@drawable/scanningc"
+        app:layout_constraintBottom_toBottomOf="@id/textV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHeight_percent="0.15" />
+
+    <!-- Guideline for positioning at quarter screen height -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/quarter_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <!-- ImageView (errormeter) aligned to bottom of scanningtitle -->
     <ImageView
         android:id="@+id/errormeter"
-        android:layout_width="201dp"
-        android:layout_height="84dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="top"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="193dp"
-        android:contentDescription="errorscan"
-        android:src="@drawable/errormeter" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Error Scan"
+        android:scaleType="fitCenter"
+        android:src="@drawable/errormeter"
+        app:layout_constraintTop_toBottomOf="@+id/scanningtitle"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
+    <!-- ImageView (safemeter) aligned to bottom of scanningtitle -->
     <ImageView
         android:id="@+id/safemeter"
-        android:layout_width="201dp"
-        android:layout_height="84dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="top"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="191dp"
-        android:contentDescription="safescan"
-        android:src="@drawable/safemeter" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Safe Scan"
+        android:scaleType="fitCenter"
+        android:src="@drawable/safemeter"
+        app:layout_constraintTop_toBottomOf="@+id/scanningtitle"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
