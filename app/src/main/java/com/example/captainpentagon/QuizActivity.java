@@ -43,6 +43,7 @@ public class QuizActivity extends AppCompatActivity {
     private MediaPlayer wrongSoundPlayer;
 
     private Boolean isCheck = false;
+    private Boolean isEnd = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class QuizActivity extends AppCompatActivity {
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isCheck = true;
 
                 checkAnswer(option1);
             }
@@ -79,6 +81,7 @@ public class QuizActivity extends AppCompatActivity {
         option2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isCheck = true;
 
                 checkAnswer(option2);
             }
@@ -87,6 +90,7 @@ public class QuizActivity extends AppCompatActivity {
         option3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isCheck = true;
 
                 checkAnswer(option3);
             }
@@ -95,27 +99,28 @@ public class QuizActivity extends AppCompatActivity {
         endButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (timer != null || isCheck) {
+                isEnd = true;
+                showResult();
+                if (timer != null) {
                     timer.cancel();
                 }
-                if (tickingSoundPlayer != null || isCheck) {
+                if (tickingSoundPlayer != null) {
                     tickingSoundPlayer.stop();
                     tickingSoundPlayer.release();
                     tickingSoundPlayer = null;
                 }
-                if (timeUpSoundPlayer != null || isCheck) {
+                if (timeUpSoundPlayer != null) {
                     timeUpSoundPlayer.release();
                     timeUpSoundPlayer = null;
                 }
-                if (correctSoundPlayer != null || isCheck) {
+                if (correctSoundPlayer != null) {
                     correctSoundPlayer.release();
                     correctSoundPlayer = null;
                 }
-                if (wrongSoundPlayer != null || isCheck) {
+                if (wrongSoundPlayer != null) {
                     wrongSoundPlayer.release();
                     wrongSoundPlayer = null;
                 }
-                showResult();
             }
         });
 
@@ -247,7 +252,6 @@ public class QuizActivity extends AppCompatActivity {
         tickingSoundPlayer.stop();
         tickingSoundPlayer.release();
         tickingSoundPlayer = null;
-        isCheck = true;
 
         String selectedAnswer = selectedOption.getText().toString();
         if (selectedAnswer.equals(currentQuestion.getCorrectAnswer())) {
@@ -267,7 +271,10 @@ public class QuizActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                loadNextQuestion();
+                if(!isEnd){
+                    loadNextQuestion();
+                }
+
                 if (correctSoundPlayer != null) {
                     correctSoundPlayer.release();
                 }
@@ -613,28 +620,32 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        isEnd = true;
         super.onPause();
 
-        if (tickingSoundPlayer != null || isCheck) {
+        if (tickingSoundPlayer != null) {
+            if (tickingSoundPlayer.isPlaying()) {
+                tickingSoundPlayer.pause();
+            }
             tickingSoundPlayer.stop();
             tickingSoundPlayer.release();
             tickingSoundPlayer = null;
 
 //            tickingSoundPlayer.prepareAsync();
         }
-        if (correctSoundPlayer != null || isCheck) {
+        if (correctSoundPlayer != null) {
             correctSoundPlayer.stop();
             correctSoundPlayer.release();
             correctSoundPlayer = null;
 //            correctSoundPlayer.prepareAsync();
         }
-        if (wrongSoundPlayer != null || isCheck) {
+        if (wrongSoundPlayer != null) {
             wrongSoundPlayer.stop();
             wrongSoundPlayer.release();
             wrongSoundPlayer = null;
 //            wrongSoundPlayer.prepareAsync();
         }
-        if (timeUpSoundPlayer != null || isCheck) {
+        if (timeUpSoundPlayer != null) {
             timeUpSoundPlayer.stop();
             timeUpSoundPlayer.release();
             timeUpSoundPlayer = null;
@@ -653,6 +664,7 @@ public class QuizActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         // If the user confirms, call the super method to perform the default action
 //                        super.onBackPressed();
+                        isEnd = true;
                         Intent intent = new Intent(QuizActivity.this, QuizMainActivity.class);
                         startActivity(intent);
                     }

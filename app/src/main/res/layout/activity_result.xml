@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/rlogo">
+    android:background="@drawable/blue">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="394dp"
+        android:src="@drawable/paper" />
 
     <TextView
         android:id="@+id/name_text"
-        android:layout_width="match_parent"
+        android:layout_width="340dp"
         android:layout_height="50dp"
-        android:layout_marginTop="160dp"
         android:gravity="center"
         android:text="Name"
+        android:layout_marginTop="150dp"
         android:textColor="@android:color/black"
         android:textSize="24sp"
 
@@ -22,8 +26,8 @@
 
     <TextView
         android:id="@+id/result_text"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_width="328dp"
+        android:layout_height="55dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textStyle="bold"
@@ -31,19 +35,29 @@
         android:textColor="@android:color/black"
         android:textSize="24sp"
         tools:ignore="MissingConstraints"
+        android:layout_marginTop="180dp"
         tools:layout_editor_absoluteX="28dp"
         tools:layout_editor_absoluteY="207dp" />
 
     <TextView
         android:id="@+id/feedback_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
+        android:layout_width="328dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="28dp"
         android:gravity="center"
         android:text="Feedback"
         android:textColor="@android:color/black"
         android:textSize="24sp"
+        android:layout_marginTop="220dp"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="636dp" />
 
-</LinearLayout>
+    <ImageView
+        android:id= "@+id/resultImageView"
+        android:layout_width="385dp"
+        android:layout_height="310dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        />
+
+</FrameLayout>
