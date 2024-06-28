@@ -1,7 +1,9 @@
 package com.example.captainpentagon;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +26,9 @@ public class ResultActivity extends AppCompatActivity {
 
         // Get the name and score from the intent
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+// Retrieve data
+        String name = sharedPreferences.getString("name", "User123");
         int score = intent.getIntExtra("score", 0);
 
         // Set the name and score text
