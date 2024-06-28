@@ -61,71 +61,80 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp">
 
-                <ImageButton
-                    android:id="@+id/imageButton"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardView1"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="#00FFFFFF"
-                    android:contentDescription="1"
-                    android:elevation="3dp"
-                    app:srcCompat="@drawable/navbutton1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#00FFFFFF"
+                    app:cardElevation="3dp"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/centerSpacer1"
+                    app:layout_constraintEnd_toStartOf="@+id/cardView2"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintWidth_percent="0.3"
-                    android:scaleType="fitCenter"/>
+                    app:layout_constraintBottom_toBottomOf="parent">
 
-                <View
-                    android:id="@+id/centerSpacer1"
+                    <ImageButton
+                        android:id="@+id/imageButton1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#00FFFFFF"
+                        android:contentDescription="1"
+                        android:elevation="0dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/navbutton1" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardView2"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintWidth_default="percent"
-                    app:layout_constraintWidth_percent="0.0005"
-                    app:layout_constraintStart_toEndOf="@+id/imageButton"
-                    app:layout_constraintEnd_toStartOf="@+id/imageButton2" />
-
-                <ImageButton
-                    android:id="@+id/imageButton2"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="#00FFFFFF"
-                    android:contentDescription="2"
-                    android:elevation="3dp"
-                    app:srcCompat="@drawable/navbutton2"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#00FFFFFF"
+                    app:cardElevation="3dp"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintStart_toEndOf="@+id/centerSpacer1"
-                    app:layout_constraintEnd_toStartOf="@+id/centerSpacer2"
+                    app:layout_constraintStart_toEndOf="@+id/cardView1"
+                    app:layout_constraintEnd_toStartOf="@+id/cardView3"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintWidth_percent="0.3"
-                    android:scaleType="fitCenter"/>
+                    app:layout_constraintBottom_toBottomOf="parent">
 
-                <View
-                    android:id="@+id/centerSpacer2"
+                    <ImageButton
+                        android:id="@+id/imageButton2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#00FFFFFF"
+                        android:contentDescription="2"
+                        android:elevation="0dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/navbutton2" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardView3"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintWidth_default="percent"
-                    app:layout_constraintWidth_percent="0.0005"
-                    app:layout_constraintStart_toEndOf="@+id/imageButton2"
-                    app:layout_constraintEnd_toStartOf="@+id/imageButton3" />
-
-                <ImageButton
-                    android:id="@+id/imageButton3"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="#00FFFFFF"
-                    android:contentDescription="3"
-                    android:elevation="3dp"
-                    app:srcCompat="@drawable/navbutton3"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#00FFFFFF"
+                    app:cardElevation="3dp"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintStart_toEndOf="@+id/centerSpacer2"
+                    app:layout_constraintStart_toEndOf="@+id/cardView2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintWidth_percent="0.3"
-                    android:scaleType="fitCenter"/>
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageButton
+                        android:id="@+id/imageButton3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#00FFFFFF"
+                        android:contentDescription="3"
+                        android:elevation="0dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/navbutton3" />
+                </com.google.android.material.card.MaterialCardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

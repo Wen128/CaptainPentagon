@@ -68,7 +68,7 @@ public class HomeActivity extends AppCompatActivity {
 
         textView.setText(name);
 
-        ImageButton imageButton1 = findViewById(R.id.imageButton);
+        ImageButton imageButton1 = findViewById(R.id.imageButton1);
         ImageButton imageButton2 = findViewById(R.id.imageButton2);
         ImageButton imageButton3 = findViewById(R.id.imageButton3);
 
@@ -226,9 +226,9 @@ public class HomeActivity extends AppCompatActivity {
         );
         cardParams.setMargins(45, 30, 45, 30);
         cardView.setLayoutParams(cardParams);
-        cardView.setRadius(30); // 圆角半径
-        cardView.setContentPadding(20, 45, 20, 10); // 内边距
-        //  cardView.setCardBackgroundColor(Color.parseColor("#E9E8E8"));
+        cardView.setRadius(30); // Rounded corners
+        cardView.setContentPadding(20, 45, 20, 10); // Padding
+        // cardView.setCardBackgroundColor(Color.parseColor("#E9E8E8"));
 
         LinearLayout messageLayout = new LinearLayout(HomeActivity.this);
         messageLayout.setOrientation(LinearLayout.VERTICAL);
@@ -245,13 +245,8 @@ public class HomeActivity extends AppCompatActivity {
         imageButton.setLayoutParams(imageParams);
         imageButton.setScaleType(ImageButton.ScaleType.CENTER_CROP);
 
-        // 使用 Glide 加载图片
+        // Use Glide to load the image
         Glide.with(HomeActivity.this).load(imageUrl).into(imageButton);
-
-        imageButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsUrl));
-            startActivity(intent);
-        });
 
         TextView textView = new TextView(HomeActivity.this);
         textView.setText(newsTitle);
@@ -262,7 +257,14 @@ public class HomeActivity extends AppCompatActivity {
         messageLayout.addView(textView);
 
         cardView.addView(messageLayout);
+
+        // Set the OnClickListener for the CardView
+        cardView.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsUrl));
+            startActivity(intent);
+        });
+
         newslayout.addView(cardView);
-}
+    }
 
 }

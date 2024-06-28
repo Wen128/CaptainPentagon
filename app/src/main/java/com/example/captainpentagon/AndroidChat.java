@@ -3,7 +3,10 @@ package com.example.captainpentagon;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.text.LineBreaker;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -95,7 +98,7 @@ public class AndroidChat extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         // Calculate font size as 1/12 of the screen height
-        float fontSize = screenHeight / 100;
+        float fontSize = screenHeight / 80;
 
         // Set the font size
         editText.setTextSize(fontSize);
@@ -107,7 +110,7 @@ public class AndroidChat extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
 
         // Calculate messageContainer height as 1/10 of the screen height
-        int messageContainerHeight = screenHeight / 10;
+        int messageContainerHeight = screenHeight / 12;
 
         // Set the height of messageContainer
         messageContainer.getLayoutParams().height = messageContainerHeight;
@@ -138,6 +141,12 @@ public class AndroidChat extends AppCompatActivity {
         textView.setText(message);
         textView.setTextSize(20);
         textView.setPadding(40, 10, 40, 10);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            textView.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            textView.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_NONE);
+        }
 
         LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
