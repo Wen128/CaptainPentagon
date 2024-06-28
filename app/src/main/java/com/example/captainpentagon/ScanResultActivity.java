@@ -54,19 +54,21 @@ public class ScanResultActivity extends AppCompatActivity {
             ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) softwareTextView.getLayoutParams();
             layoutParams.topToBottom = R.id.safemeter;
             softwareTextView.setLayoutParams(layoutParams);
+
+            // Override the back button press
+            OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    // Handle the back button event
+                    Intent intent = new Intent(ScanResultActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            };
+            getOnBackPressedDispatcher().addCallback(this, callback);
         }
 
-        // Override the back button press
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                // Handle the back button event
-                Intent intent = new Intent(ScanResultActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
+
     }
 
 }

@@ -624,6 +624,9 @@ public class QuizActivity extends AppCompatActivity {
         super.onPause();
 
         if (tickingSoundPlayer != null) {
+            if (tickingSoundPlayer.isPlaying()) {
+                tickingSoundPlayer.pause();
+            }
             tickingSoundPlayer.stop();
             tickingSoundPlayer.release();
             tickingSoundPlayer = null;
@@ -661,6 +664,7 @@ public class QuizActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         // If the user confirms, call the super method to perform the default action
 //                        super.onBackPressed();
+                        isEnd = true;
                         Intent intent = new Intent(QuizActivity.this, QuizMainActivity.class);
                         startActivity(intent);
                     }
