@@ -68,7 +68,7 @@ public class HomeActivity extends AppCompatActivity {
 
         textView.setText(name);
 
-        ImageButton imageButton1 = findViewById(R.id.imageButton);
+        ImageButton imageButton1 = findViewById(R.id.imageButton1);
         ImageButton imageButton2 = findViewById(R.id.imageButton2);
         ImageButton imageButton3 = findViewById(R.id.imageButton3);
 

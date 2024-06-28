@@ -6,20 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:foregroundTint="#2854F2"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:layout_editor_absoluteX="-1dp"
+    tools:layout_editor_absoluteY="-50dp">
 
 
     <TextView
         android:id="@+id/scanDetails"
         android:layout_width="271dp"
         android:layout_height="105dp"
-        android:layout_marginBottom="136dp"
+        android:layout_marginTop="20dp"
         android:text="Scanning system...."
         android:textAlignment="center"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar10" />
 
     <ProgressBar
         android:id="@+id/progressBar10"
@@ -27,7 +30,7 @@
         android:layout_width="271dp"
         android:layout_height="283dp"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="176dp"
+        android:layout_marginTop="124dp"
         android:layout_marginEnd="70dp"
         android:background="#00FFFFFF"
         android:foregroundTint="#1976D2"
@@ -38,6 +41,7 @@
         android:secondaryProgressTint="#1976D2"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
@@ -46,23 +50,25 @@
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="312dp"
+        android:layout_marginTop="260dp"
         android:text="Scanning...."
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/btnToHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="#00FFFFFF"
+    <Button
+        android:id="@+id/button"
+        android:layout_width="322dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#1976D1"
+        android:text="Do Some Quiz While Waiting!"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/homebotton" />
+        app:layout_constraintTop_toBottomOf="@+id/scanDetails" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
