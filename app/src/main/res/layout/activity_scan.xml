@@ -47,7 +47,7 @@
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/percentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="260dp"
@@ -60,7 +60,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/toquizbtn"
         android:layout_width="322dp"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
