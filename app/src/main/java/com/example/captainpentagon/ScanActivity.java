@@ -47,20 +47,10 @@ public class ScanActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_scan);
 
-        btnToHome = findViewById(R.id.btnToHome);
+
         scanDetail = findViewById(R.id.scanDetails);
 
-        btnToHome.setOnClickListener(v -> {
-            Intent homeIntent = new Intent(ScanActivity.this, HomeActivity.class); // Replace HomeActivity with your actual homepage activity
-            startActivity(homeIntent);
-            finish(); // Optionally finish the current activity
-        });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main1), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {

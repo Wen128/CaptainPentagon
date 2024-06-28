@@ -1,6 +1,7 @@
 package com.example.captainpentagon;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,17 @@ public class ScanResultActivity extends AppCompatActivity {
             resultTextView.setText(results.toString());
         } else {
             resultTextView.setText("No malware detected.");
+        }
+
+        View safemeter = findViewById(R.id.safemeter);
+        View errormeter = findViewById(R.id.errormeter);
+
+        if (scanResults != null && !scanResults.isEmpty()) {
+            safemeter.setVisibility(View.GONE);
+            errormeter.setVisibility(View.VISIBLE);
+        } else {
+            safemeter.setVisibility(View.VISIBLE);
+            errormeter.setVisibility(View.GONE);
         }
     }
 }
