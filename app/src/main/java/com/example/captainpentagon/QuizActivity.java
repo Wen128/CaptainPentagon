@@ -22,10 +22,12 @@ import android.graphics.drawable.GradientDrawable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
 
+    private HashSet<Question> answeredQuestions = new HashSet<>();
     private TextView questionTextView, questionCountTextView, scoreTextView;
     private Button option1, option2, option3, endButton;
     private List<Question> questionList;
@@ -121,9 +123,21 @@ public class QuizActivity extends AppCompatActivity {
     }
 
 
+
+    private void updateQuestionCount() {
+        questionCountTextView.setText("Question: " + questionIndex + "/10");
+    }
+
     private void loadNextQuestion() {
         if (questionIndex < 10) {
-            currentQuestion = questionList.get(questionIndex);
+            // 隨機從未回答過的問題中選擇
+            do {
+                currentQuestion = questionList.get(questionIndex);
+            } while (answeredQuestions.contains(currentQuestion));
+
+            // 將這個問題標記為已回答
+            answeredQuestions.add(currentQuestion);
+
             questionTextView.setText(currentQuestion.getQuestionText());
             option1.setText(currentQuestion.getOption1());
             option2.setText(currentQuestion.getOption2());
@@ -140,7 +154,6 @@ public class QuizActivity extends AppCompatActivity {
             showResult();
         }
     }
-
     private void startTimer() {
         int timeLimit = getTimeLimitBasedOnDifficulty(difficulty);
         totalTimeInMillis = timeLimit * 1000;
@@ -191,9 +204,6 @@ public class QuizActivity extends AppCompatActivity {
         }.start();
     }
 
-    private void updateQuestionCount() {
-        questionCountTextView.setText("Question: " + questionIndex + "/10");
-    }
 
     private void updateScore() {
         scoreTextView.setText("Score: " + score);
