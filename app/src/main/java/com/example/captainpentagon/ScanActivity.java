@@ -45,7 +45,7 @@ public class ScanActivity extends AppCompatActivity {
     private static final String SERVER_URL = "https://malware-detect-e2fec6effe08.herokuapp.com/analyze"; // Update with your server address
     private static final int REQUEST_PERMISSION = 123;
     private static List<String> scanResults = new ArrayList<>();
-    private static final int TARGET_PERCENT = 99; // 目標百分比
+    private static final int TARGET_PERCENT = 100; // 目標百分比
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +86,14 @@ public class ScanActivity extends AppCompatActivity {
                 scanAPK();
             } else {
                 Log.d("tag", "Permission denied");
+                // Handle the case where the permission is denied
+                showPermissionDeniedMessage();
             }
         }
+    }
+
+    private void showPermissionDeniedMessage() {
+        runOnUiThread(() -> scanDetail.setText("Permission denied. Cannot scan for APK files."));
     }
 
     public List<File> extractApkFiles() {
@@ -119,12 +125,8 @@ public class ScanActivity extends AppCompatActivity {
                     findApkFiles(file, apkFiles); // Recursive call for directories
                 } else {
                     apkFiles.add(file); // Add APK file to the list
-                    apkCount++; // 更新計數器
-                    runOnUiThread(() -> {
-                        scanDetail.setText("Found APK: " + file.getAbsolutePath());
-                        // 更新計數顯示
-                        startProgressAnimation();
-                    });
+                    apkCount++; // 更新计数器
+                    runOnUiThread(() -> scanDetail.setText("Found APK: " + file.getAbsolutePath()));
                 }
             }
         } else {
@@ -133,7 +135,8 @@ public class ScanActivity extends AppCompatActivity {
     }
 
     private void uploadApkFile(File apkFile, CountDownLatch latch) {
-        new Thread(() -> {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(1000, TimeUnit.SECONDS)
                     .writeTimeout(1000, TimeUnit.SECONDS)
@@ -169,12 +172,13 @@ public class ScanActivity extends AppCompatActivity {
                 e.printStackTrace();
             } finally {
                 latch.countDown(); // Decrement the count of the latch
+                updateUploadProgress(latch.getCount());
             }
-        }).start();
+        });
+        executor.shutdown();
     }
 
     public void scanAPK() {
-        Log.d("tag", "try");
         List<File> apkFiles = extractApkFiles();
         CountDownLatch latch = new CountDownLatch(apkFiles.size());
         ExecutorService executor = Executors.newFixedThreadPool(4); // Adjust the pool size based on your needs
@@ -182,7 +186,6 @@ public class ScanActivity extends AppCompatActivity {
         for (File apkFile : apkFiles) {
             executor.execute(() -> {
                 uploadApkFile(apkFile, latch);
-                updateProgress(apkFiles.size(), latch.getCount());
             });
         }
 
@@ -195,7 +198,6 @@ public class ScanActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 percentText.setText(TARGET_PERCENT + "%");
-
                 Intent intent = new Intent(ScanActivity.this, ScanResultActivity.class);
                 intent.putStringArrayListExtra("scanResults", new ArrayList<>(scanResults));
                 startActivity(intent);
@@ -204,25 +206,9 @@ public class ScanActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void updateProgress(int totalFiles, long remainingCount) {
-        int uploadedCount = totalFiles - (int) remainingCount;
-        int currentPercent = (int) (((float) uploadedCount / totalFiles) * TARGET_PERCENT);
+    private void updateUploadProgress(long remainingCount) {
+        int uploadedCount = apkCount - (int) remainingCount;
+        int currentPercent = (int) (((float) uploadedCount / apkCount) * (TARGET_PERCENT)); // 上传阶段更新进度
         runOnUiThread(() -> percentText.setText(currentPercent + "%"));
-    }
-
-    private void startProgressAnimation() {
-        new Thread(() -> {
-            int currentPercent = 0;
-            while (currentPercent < TARGET_PERCENT) {
-                try {
-                    Thread.sleep(50); // Adjust speed of increment here
-                    currentPercent++;
-                    int finalCurrentPercent = currentPercent;
-                    runOnUiThread(() -> percentText.setText(finalCurrentPercent + "%"));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 }
