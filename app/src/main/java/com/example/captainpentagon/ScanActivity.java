@@ -41,12 +41,11 @@ public class ScanActivity extends AppCompatActivity {
     ImageButton btnToHome;
     static TextView scanDetail, percentText;
     Button toQuizBtn;
-    private static int percent = 0;
-
-
+    private int apkCount = 0; // APK 檔案計數器
     private static final String SERVER_URL = "https://malware-detect-e2fec6effe08.herokuapp.com/analyze"; // Update with your server address
     private static final int REQUEST_PERMISSION = 123;
     private static List<String> scanResults = new ArrayList<>();
+    private static final int TARGET_PERCENT = 99; // 目標百分比
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +95,11 @@ public class ScanActivity extends AppCompatActivity {
         File externalStorage = Environment.getExternalStorageDirectory(); // General external storage directory
         findApkFiles(externalStorage, apkFiles);
         Log.d("second", apkFiles.toString());
+
+        // 設置提取的 APK 檔案計數
+        apkCount = apkFiles.size();
+        Log.d("apkCount", "Total APK files found: " + apkCount);
+
         return apkFiles;
     }
 
@@ -115,7 +119,12 @@ public class ScanActivity extends AppCompatActivity {
                     findApkFiles(file, apkFiles); // Recursive call for directories
                 } else {
                     apkFiles.add(file); // Add APK file to the list
-                    runOnUiThread(() -> scanDetail.setText("Found APK: " + file.getAbsolutePath()));
+                    apkCount++; // 更新計數器
+                    runOnUiThread(() -> {
+                        scanDetail.setText("Found APK: " + file.getAbsolutePath());
+                        // 更新計數顯示
+                        startProgressAnimation();
+                    });
                 }
             }
         } else {
@@ -144,17 +153,6 @@ public class ScanActivity extends AppCompatActivity {
             Log.d("tag", "requestBody");
 
             try {
-                runOnUiThread(() -> {
-                    scanDetail.setText("Analyzing " + apkFile.getName());
-                    if(percent <99){
-                        percent += 1;
-                    }else{
-                        percent = 99; // Increase percentage step by step
-                    }
-
-                    percentText.setText(percent + "%");
-                });
-
                 Response response = client.newCall(request).execute();
                 if (!response.isSuccessful()) {
                     throw new IOException("Unexpected code " + response);
@@ -182,7 +180,10 @@ public class ScanActivity extends AppCompatActivity {
         ExecutorService executor = Executors.newFixedThreadPool(4); // Adjust the pool size based on your needs
 
         for (File apkFile : apkFiles) {
-            executor.execute(() -> uploadApkFile(apkFile, latch));
+            executor.execute(() -> {
+                uploadApkFile(apkFile, latch);
+                updateProgress(apkFiles.size(), latch.getCount());
+            });
         }
 
         new Thread(() -> {
@@ -193,14 +194,35 @@ public class ScanActivity extends AppCompatActivity {
             }
 
             runOnUiThread(() -> {
-                percent = 100; // Set final percentage to 100%
-                percentText.setText(percent + "%");
+                percentText.setText(TARGET_PERCENT + "%");
 
                 Intent intent = new Intent(ScanActivity.this, ScanResultActivity.class);
                 intent.putStringArrayListExtra("scanResults", new ArrayList<>(scanResults));
                 startActivity(intent);
             });
             executor.shutdown();
+        }).start();
+    }
+
+    private void updateProgress(int totalFiles, long remainingCount) {
+        int uploadedCount = totalFiles - (int) remainingCount;
+        int currentPercent = (int) (((float) uploadedCount / totalFiles) * TARGET_PERCENT);
+        runOnUiThread(() -> percentText.setText(currentPercent + "%"));
+    }
+
+    private void startProgressAnimation() {
+        new Thread(() -> {
+            int currentPercent = 0;
+            while (currentPercent < TARGET_PERCENT) {
+                try {
+                    Thread.sleep(50); // Adjust speed of increment here
+                    currentPercent++;
+                    int finalCurrentPercent = currentPercent;
+                    runOnUiThread(() -> percentText.setText(finalCurrentPercent + "%"));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }).start();
     }
 }
