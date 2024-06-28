@@ -39,13 +39,14 @@
         android:id="@+id/nameInput"
         android:layout_width="340dp"
         android:layout_height="80dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/edit_text_border"
         android:gravity="center"
         android:hint="Enter your name"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@id/logoPhoto"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Logo -->
     <ImageView
