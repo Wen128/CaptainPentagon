@@ -21,12 +21,10 @@ import android.graphics.drawable.GradientDrawable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
 
-    private HashSet<Question> answeredQuestions = new HashSet<>();
     private TextView questionTextView, questionCountTextView, scoreTextView;
     private Button option1, option2, option3, endButton;
     private List<Question> questionList;
@@ -43,6 +41,8 @@ public class QuizActivity extends AppCompatActivity {
     private MediaPlayer timeUpSoundPlayer;
     private MediaPlayer correctSoundPlayer;
     private MediaPlayer wrongSoundPlayer;
+
+    private Boolean isCheck = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,41 +95,37 @@ public class QuizActivity extends AppCompatActivity {
         endButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showResult();
-
+                if (timer != null || isCheck) {
                     timer.cancel();
+                }
+                if (tickingSoundPlayer != null || isCheck) {
                     tickingSoundPlayer.stop();
                     tickingSoundPlayer.release();
                     tickingSoundPlayer = null;
-
+                }
+                if (timeUpSoundPlayer != null || isCheck) {
                     timeUpSoundPlayer.release();
                     timeUpSoundPlayer = null;
+                }
+                if (correctSoundPlayer != null || isCheck) {
                     correctSoundPlayer.release();
                     correctSoundPlayer = null;
+                }
+                if (wrongSoundPlayer != null || isCheck) {
                     wrongSoundPlayer.release();
                     wrongSoundPlayer = null;
-
+                }
+                showResult();
             }
         });
 
     }
 
 
-
-    private void updateQuestionCount() {
-        questionCountTextView.setText("Question: " + questionIndex + "/10");
-    }
-
     private void loadNextQuestion() {
         if (questionIndex < 10) {
-            // 隨機從未回答過的問題中選擇
-            do {
-                currentQuestion = questionList.get(questionIndex);
-            } while (answeredQuestions.contains(currentQuestion));
-
-            // 將這個問題標記為已回答
-            answeredQuestions.add(currentQuestion);
-
+            isCheck = false;
+            currentQuestion = questionList.get(questionIndex);
             questionTextView.setText(currentQuestion.getQuestionText());
             option1.setText(currentQuestion.getOption1());
             option2.setText(currentQuestion.getOption2());
@@ -146,6 +142,7 @@ public class QuizActivity extends AppCompatActivity {
             showResult();
         }
     }
+
     private void startTimer() {
         int timeLimit = getTimeLimitBasedOnDifficulty(difficulty);
         totalTimeInMillis = timeLimit * 1000;
@@ -205,6 +202,9 @@ public class QuizActivity extends AppCompatActivity {
         }.start();
     }
 
+    private void updateQuestionCount() {
+        questionCountTextView.setText("Question: " + questionIndex + "/10");
+    }
 
     private void updateScore() {
         scoreTextView.setText("Score: " + score);
@@ -247,6 +247,7 @@ public class QuizActivity extends AppCompatActivity {
         tickingSoundPlayer.stop();
         tickingSoundPlayer.release();
         tickingSoundPlayer = null;
+        isCheck = true;
 
         String selectedAnswer = selectedOption.getText().toString();
         if (selectedAnswer.equals(currentQuestion.getCorrectAnswer())) {
@@ -614,24 +615,31 @@ public class QuizActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
+        if (tickingSoundPlayer != null || isCheck) {
             tickingSoundPlayer.stop();
             tickingSoundPlayer.release();
             tickingSoundPlayer = null;
 
 //            tickingSoundPlayer.prepareAsync();
+        }
+        if (correctSoundPlayer != null || isCheck) {
             correctSoundPlayer.stop();
             correctSoundPlayer.release();
             correctSoundPlayer = null;
 //            correctSoundPlayer.prepareAsync();
+        }
+        if (wrongSoundPlayer != null || isCheck) {
             wrongSoundPlayer.stop();
             wrongSoundPlayer.release();
             wrongSoundPlayer = null;
 //            wrongSoundPlayer.prepareAsync();
+        }
+        if (timeUpSoundPlayer != null || isCheck) {
             timeUpSoundPlayer.stop();
             timeUpSoundPlayer.release();
             timeUpSoundPlayer = null;
 //            timeUpSoundPlayer.prepareAsync();
-
+        }
     }
 
     @SuppressLint("MissingSuperCall")
