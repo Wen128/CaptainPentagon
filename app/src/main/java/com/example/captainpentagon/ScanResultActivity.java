@@ -1,9 +1,11 @@
 package com.example.captainpentagon;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
@@ -41,5 +43,18 @@ public class ScanResultActivity extends AppCompatActivity {
             safemeter.setVisibility(View.VISIBLE);
             errormeter.setVisibility(View.GONE);
         }
+
+        // Override the back button press
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent intent = new Intent(ScanResultActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
+
 }

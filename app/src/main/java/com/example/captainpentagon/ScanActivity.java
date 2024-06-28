@@ -1,30 +1,34 @@
 package com.example.captainpentagon;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.util.Log;
-import android.os.Environment;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -35,7 +39,10 @@ import okhttp3.Response;
 public class ScanActivity extends AppCompatActivity {
 
     ImageButton btnToHome;
-    static TextView scanDetail;
+    static TextView scanDetail, percentText;
+    Button toQuizBtn;
+    private static int percent = 0;
+
 
     private static final String SERVER_URL = "https://malware-detect-e2fec6effe08.herokuapp.com/analyze"; // Update with your server address
     private static final int REQUEST_PERMISSION = 123;
@@ -48,7 +55,13 @@ public class ScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan);
 
         scanDetail = findViewById(R.id.scanDetails);
+        toQuizBtn = findViewById(R.id.toquizbtn);
+        percentText = findViewById(R.id.percentText);
 
+        toQuizBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ScanActivity.this, QuizSplashActivity.class);
+            startActivity(intent);
+        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main1), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -87,7 +100,8 @@ public class ScanActivity extends AppCompatActivity {
     }
 
     private void findApkFiles(File directory, List<File> apkFiles) {
-        scanDetail.setText("Searching in directory: " + directory.getAbsolutePath());
+        runOnUiThread(() -> scanDetail.setText("Searching in directory: " + directory.getAbsolutePath()));
+
         File[] files = directory.listFiles(new FileFilter() {
             @Override
             public boolean accept(File file) {
@@ -101,7 +115,7 @@ public class ScanActivity extends AppCompatActivity {
                     findApkFiles(file, apkFiles); // Recursive call for directories
                 } else {
                     apkFiles.add(file); // Add APK file to the list
-                    scanDetail.setText("Found APK: " + file.getAbsolutePath());
+                    runOnUiThread(() -> scanDetail.setText("Found APK: " + file.getAbsolutePath()));
                 }
             }
         } else {
@@ -109,7 +123,7 @@ public class ScanActivity extends AppCompatActivity {
         }
     }
 
-    private static void uploadApkFile(File apkFile, CountDownLatch latch) {
+    private void uploadApkFile(File apkFile, CountDownLatch latch) {
         new Thread(() -> {
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(1000, TimeUnit.SECONDS)
@@ -130,7 +144,16 @@ public class ScanActivity extends AppCompatActivity {
             Log.d("tag", "requestBody");
 
             try {
-                scanDetail.setText("Analyzing " + apkFile.getName());
+                runOnUiThread(() -> {
+                    scanDetail.setText("Analyzing " + apkFile.getName());
+                    if(percent <99){
+                        percent += 1;
+                    }else{
+                        percent = 99; // Increase percentage step by step
+                    }
+
+                    percentText.setText(percent + "%");
+                });
 
                 Response response = client.newCall(request).execute();
                 if (!response.isSuccessful()) {
@@ -143,6 +166,7 @@ public class ScanActivity extends AppCompatActivity {
                     scanResults.add(apkFile.getName());
                 }
                 Log.d("result", scanResults.toString());
+
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -169,6 +193,9 @@ public class ScanActivity extends AppCompatActivity {
             }
 
             runOnUiThread(() -> {
+                percent = 100; // Set final percentage to 100%
+                percentText.setText(percent + "%");
+
                 Intent intent = new Intent(ScanActivity.this, ScanResultActivity.class);
                 intent.putStringArrayListExtra("scanResults", new ArrayList<>(scanResults));
                 startActivity(intent);
