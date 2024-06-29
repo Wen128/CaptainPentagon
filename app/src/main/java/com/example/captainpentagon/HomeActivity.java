@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
@@ -119,7 +121,31 @@ public class HomeActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        // Override the back button press
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Create a confirmation dialog
+                new AlertDialog.Builder(HomeActivity.this)
+                        .setTitle("Exit")
+                        .setMessage("Are you sure you want to quit?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            // Finish the activity
+                            finishAffinity();
+                        })
+                        .setNegativeButton("No", (dialog, which) -> {
+                            // Dismiss the dialog
+                            dialog.dismiss();
+                        })
+                        .show();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+
     }
+
+
 
     private void refreshNewsItems() {
         Log.d("RefreshNewsItems", "Refreshing news items...");

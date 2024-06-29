@@ -1,29 +1,43 @@
 package com.example.captainpentagon;
 
+import android.Manifest;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import java.io.File;
 import java.util.List;
 
 public class ScanResultActivity extends AppCompatActivity {
+
+    private static final int REQUEST_PERMISSION_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_result);
 
-        // Get the scan results from the intent
+        // Get the scan results and file paths from the intent
         List<String> scanResults = getIntent().getStringArrayListExtra("scanResults");
+        List<String> apkFilePaths = getIntent().getStringArrayListExtra("apkFilePaths");
 
         // Get the results container
         LinearLayout resultsContainer = findViewById(R.id.resultsContainer);
@@ -37,9 +51,19 @@ public class ScanResultActivity extends AppCompatActivity {
         int imageButtonWidth = (int) (screenWidth * 0.10);
         int imageButtonHeight = imageButtonWidth;
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_PERMISSION_CODE);
+        }
+
         // Display the results
         if (scanResults != null && !scanResults.isEmpty()) {
-            for (String result : scanResults) {
+            for (int i = 0; i < scanResults.size(); i++) {
+                String result = scanResults.get(i);
+                String filePath = apkFilePaths.get(i);
+
                 // Create a new LinearLayout for each result
                 LinearLayout resultLayout = new LinearLayout(this);
                 resultLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -56,22 +80,49 @@ public class ScanResultActivity extends AppCompatActivity {
 
                 // Create an ImageButton for the result
                 ImageButton actionButton = new ImageButton(this);
-                actionButton.setImageResource(R.drawable.errormeter); // Use appropriate drawable
+                actionButton.setImageResource(R.drawable.delete); // Use appropriate drawable
+
+// Set the scale type to fit the image within the button bounds
+                actionButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+// Remove padding if any
+                actionButton.setPadding(0, 0, 0, 0);
+
+// Set a transparent background to avoid default button styling
+                actionButton.setBackgroundColor(Color.TRANSPARENT);
+
                 LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                        imageButtonWidth,
-                        imageButtonHeight);
+                        60,
+                        60);
                 buttonParams.gravity = Gravity.END; // Align ImageButton to the right
+                buttonParams.setMargins(0, 25, 0, 25); // Remove any margins
                 actionButton.setLayoutParams(buttonParams);
 
-                // Set click listener for ImageButton
-                actionButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Handle click event
-                        Intent intent = new Intent(ScanResultActivity.this, MainActivity.class);
-                        startActivity(intent);
+
+                // Set click listener for ImageButton to delete the APK file
+                actionButton.setOnClickListener(v -> {
+                    File file = new File(filePath);
+                    if (file.exists()) {
+                        if (file.delete()) {
+                            // Remove the result and path from the lists
+                            scanResults.remove(result);
+                            apkFilePaths.remove(filePath);
+
+                            // Remove the view
+                            resultsContainer.removeView(resultLayout);
+
+                            // Show a success toast message
+                            Toast.makeText(this, "Deleted: " + result, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Failed to delete: " + result, Toast.LENGTH_SHORT).show();
+                            Log.e("FileDeletion", "Failed to delete file: " + filePath);
+                        }
+                    } else {
+                        Toast.makeText(this, "File not found: " + result, Toast.LENGTH_SHORT).show();
+                        Log.e("FileDeletion", "File not found: " + filePath);
                     }
                 });
+
 
                 // Add TextView and ImageButton to the result layout
                 resultLayout.addView(resultTextView);
@@ -107,20 +158,23 @@ public class ScanResultActivity extends AppCompatActivity {
             layoutParams.topToBottom = R.id.safemeter;
             softwareTextView.setLayoutParams(layoutParams);
 
-            // Override the back button press
-            OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-                @Override
-                public void handleOnBackPressed() {
-                    // Handle the back button event
-                    Intent intent = new Intent(ScanResultActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            };
-            getOnBackPressedDispatcher().addCallback(this, callback);
+
         }
 
-
+        // Override the back button press
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Intent intent = new Intent(ScanResultActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
+
+
+
 
 }

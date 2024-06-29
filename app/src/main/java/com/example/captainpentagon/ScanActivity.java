@@ -47,6 +47,8 @@ public class ScanActivity extends AppCompatActivity {
     private static List<String> scanResults = new ArrayList<>();
     private static final int TARGET_PERCENT = 100; // 目標百分比
 
+    private List<String> apkFilePaths = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,35 +114,38 @@ public class ScanActivity extends AppCompatActivity {
     private void findApkFiles(File directory, List<File> apkFiles) {
         runOnUiThread(() -> scanDetail.setText("Searching in directory: " + directory.getAbsolutePath()));
 
-        File[] files = directory.listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                return file.isDirectory() || (file.isFile() && file.getName().toLowerCase().endsWith(".apk"));
-            }
-        });
+        File[] files = directory.listFiles(file -> file.isDirectory() || (file.isFile() && file.getName().toLowerCase().endsWith(".apk")));
 
         if (files != null) {
+            List<Thread> threads = new ArrayList<>();
             for (File file : files) {
                 if (file.isDirectory()) {
-                    findApkFiles(file, apkFiles); // Recursive call for directories
+                    Thread thread = new Thread(() -> findApkFiles(file, apkFiles));
+                    threads.add(thread);
+                    thread.start();
                 } else {
-                    apkFiles.add(file); // Add APK file to the list
-                    apkCount++; // 更新计数器
-                    runOnUiThread(() -> scanDetail.setText("Found APK: " + file.getAbsolutePath()));
+                    apkFiles.add(file);
+                    scanDetail.post(() -> scanDetail.setText("Found " + apkFiles.size() + " APKs in " + directory.getAbsolutePath()));
                 }
             }
-        } else {
-            Log.d("findApkFiles", "No files found in directory: " + directory.getAbsolutePath());
+            for (Thread thread : threads) {
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     private void uploadApkFile(File apkFile, CountDownLatch latch) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        ExecutorService executor = Executors.newFixedThreadPool(8); // Adjust based on your needs
+
         executor.execute(() -> {
             OkHttpClient client = new OkHttpClient.Builder()
-                    .connectTimeout(1000, TimeUnit.SECONDS)
-                    .writeTimeout(1000, TimeUnit.SECONDS)
-                    .readTimeout(1000, TimeUnit.SECONDS)
+                    .connectTimeout(200, TimeUnit.SECONDS)
+                    .writeTimeout(200, TimeUnit.SECONDS)
+                    .readTimeout(200, TimeUnit.SECONDS)
                     .build();
 
             RequestBody requestBody = new MultipartBody.Builder()
@@ -160,11 +165,13 @@ public class ScanActivity extends AppCompatActivity {
                 if (!response.isSuccessful()) {
                     throw new IOException("Unexpected code " + response);
                 }
+                scanDetail.post(() -> scanDetail.setText("Uploaded " + apkFile.getName() + " successfully"));
 
                 Log.d("uploadApkFile", "Uploaded " + apkFile.getName() + " successfully");
 
                 if (response.body().string().contains("malware")) {
                     scanResults.add(apkFile.getName());
+                    apkFilePaths.add(apkFile.getAbsolutePath()); // Store file path
                 }
                 Log.d("result", scanResults.toString());
 
@@ -200,6 +207,7 @@ public class ScanActivity extends AppCompatActivity {
                 percentText.setText(TARGET_PERCENT + "%");
                 Intent intent = new Intent(ScanActivity.this, ScanResultActivity.class);
                 intent.putStringArrayListExtra("scanResults", new ArrayList<>(scanResults));
+                intent.putStringArrayListExtra("apkFilePaths", new ArrayList<>(apkFilePaths)); // Pass file paths
                 startActivity(intent);
             });
             executor.shutdown();
