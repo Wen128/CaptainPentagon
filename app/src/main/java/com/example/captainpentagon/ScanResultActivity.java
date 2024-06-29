@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +30,7 @@ import java.util.List;
 public class ScanResultActivity extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSION_CODE = 123;
+    private Button clearBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class ScanResultActivity extends AppCompatActivity {
 
         // Get the results container
         LinearLayout resultsContainer = findViewById(R.id.resultsContainer);
+
+        clearBtn = findViewById(R.id.clearBtn);
 
         // Get the screen width in pixels
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -98,6 +102,8 @@ public class ScanResultActivity extends AppCompatActivity {
                 buttonParams.setMargins(0, 25, 0, 25); // Remove any margins
                 actionButton.setLayoutParams(buttonParams);
 
+                clearBtn.setOnClickListener(v -> deleteAllFiles(apkFilePaths, resultsContainer, scanResults));
+
 
                 // Set click listener for ImageButton to delete the APK file
                 actionButton.setOnClickListener(v -> {
@@ -139,6 +145,7 @@ public class ScanResultActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
             resultsContainer.addView(noResultTextView);
+            clearBtn.setVisibility(View.GONE);
         }
 
         View safemeter = findViewById(R.id.safemeter);
@@ -174,6 +181,27 @@ public class ScanResultActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
+    private void deleteAllFiles(List<String> apkFilePaths, LinearLayout resultsContainer, List<String> scanResults) {
+        for (int i = apkFilePaths.size() - 1; i >= 0; i--) {
+            String filePath = apkFilePaths.get(i);
+            File file = new File(filePath);
+            if (file.exists()) {
+                if (file.delete()) {
+                    // Remove the layout view
+                    LinearLayout layoutToRemove = (LinearLayout) resultsContainer.getChildAt(i);
+                    resultsContainer.removeView(layoutToRemove);
+                    // Remove from lists
+                    scanResults.remove(i);
+                    apkFilePaths.remove(i);
+                } else {
+                    Log.e("FileDeletion", "Failed to delete file: " + filePath);
+                }
+            } else {
+                Log.e("FileDeletion", "File not found: " + filePath);
+            }
+        }
+        Toast.makeText(this, "All files deleted, Your device is safe!", Toast.LENGTH_SHORT).show();
+    }
 
 
 

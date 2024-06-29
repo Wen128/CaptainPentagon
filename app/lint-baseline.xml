@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.5.0" type="baseline" client="gradle" dependencies="false" name="AGP (8.5.0)" variant="fatal" version="8.5.0">
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/textView`, already defined earlier in this layout"
+        errorLine1="        android:id=&quot;@+id/textView&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="107"
+            column="9"/>
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="94"
+            column="9"
+            message="Duplicate id `@+id/textView` originally defined here"/>
+    </issue>
+
+</issues>

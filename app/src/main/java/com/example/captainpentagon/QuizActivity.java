@@ -152,8 +152,29 @@ public class QuizActivity extends AppCompatActivity {
             updateQuestionCount();
             resetOptions();
             startTimer();
-        } else {
+        } else {    isEnd = true;
             showResult();
+            if (timer != null) {
+                timer.cancel();
+            }
+            if (tickingSoundPlayer != null) {
+                tickingSoundPlayer.stop();
+                tickingSoundPlayer.release();
+                tickingSoundPlayer = null;
+            }
+            if (timeUpSoundPlayer != null) {
+                timeUpSoundPlayer.release();
+                timeUpSoundPlayer = null;
+            }
+            if (correctSoundPlayer != null) {
+                correctSoundPlayer.release();
+                correctSoundPlayer = null;
+            }
+            if (wrongSoundPlayer != null) {
+                wrongSoundPlayer.release();
+                wrongSoundPlayer = null;
+            }
+
         }
     }
 
@@ -489,8 +510,8 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        isEnd = true;
         super.onPause();
+        isEnd = true;
 
         if (tickingSoundPlayer != null) {
             if (tickingSoundPlayer.isPlaying()) {

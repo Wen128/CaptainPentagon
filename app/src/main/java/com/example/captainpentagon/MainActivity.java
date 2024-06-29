@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             String name = nameInput.getText().toString();
             String selectedField = spinnerField.getSelectedItem().toString();
 
-            if (name.isEmpty() || selectedField.equals("Select your field")) {
+            if (name.isEmpty() && selectedField.equals("Select your field")) {
                 Toast.makeText(MainActivity.this, "Please complete all options", Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
