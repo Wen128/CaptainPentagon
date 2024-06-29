@@ -47,6 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     private OkHttpClient client;
     private HashSet<String> newsUrls;
     private HashSet<String> imageUrls;
+    private HashSet<String> titleList;
     private int currentPage = 1; // Current page number
     private final int PAGE_SIZE = 5; // Number of news items per page
     private boolean isUserScrolling = false;
@@ -98,6 +99,8 @@ public class HomeActivity extends AppCompatActivity {
         // Initialize HashSet for tracking news URLs and image URLs
         newsUrls = new HashSet<>();
         imageUrls = new HashSet<>();
+        titleList = new HashSet<>();
+
 
         // Fetch initial news items from API
         fetchNewsItems(currentPage);
@@ -215,9 +218,10 @@ public class HomeActivity extends AppCompatActivity {
 
                                     // Check if the news URL has already been added, if the title is [Removed], or if the image URL is empty
                                     // Also check if the image URL has already been added
-                                    if (!newsUrls.contains(url) && !imageUrls.contains(imageUrl) && !title.equals("[Removed]") && imageUrl != null && !imageUrl.isEmpty()) {
+                                    if (!titleList.contains(title) &&!newsUrls.contains(url) && !imageUrls.contains(imageUrl) && !title.equals("[Removed]") && imageUrl != null && !imageUrl.isEmpty()) {
                                         newsUrls.add(url);
                                         imageUrls.add(imageUrl);
+                                        titleList.add(title);
                                         addNewsItem(imageUrl, title, url);
                                     }
                                 } catch (JSONException e) {
