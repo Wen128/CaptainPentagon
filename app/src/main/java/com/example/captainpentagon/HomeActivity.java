@@ -290,6 +290,11 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        imageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsUrl));
+            startActivity(intent);
+        });
+
         newslayout.addView(cardView);
     }
 
