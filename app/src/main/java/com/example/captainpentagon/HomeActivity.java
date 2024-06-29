@@ -218,7 +218,7 @@ public class HomeActivity extends AppCompatActivity {
 
                                     // Check if the news URL has already been added, if the title is [Removed], or if the image URL is empty
                                     // Also check if the image URL has already been added
-                                    if (!titleList.contains(title) &&!newsUrls.contains(url) && !imageUrls.contains(imageUrl) && !title.equals("[Removed]") && imageUrl != null && !imageUrl.isEmpty()) {
+                                    if (!titleList.contains(title) &&!newsUrls.contains(url) && !imageUrls.contains(imageUrl) && !title.equals("[Removed]") && !title.equals("null") && imageUrl != null && !imageUrl.isEmpty()) {
                                         newsUrls.add(url);
                                         imageUrls.add(imageUrl);
                                         titleList.add(title);
