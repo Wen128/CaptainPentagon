@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.drawable.GradientDrawable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -132,9 +133,17 @@ public class QuizActivity extends AppCompatActivity {
             isCheck = false;
             currentQuestion = questionList.get(questionIndex);
             questionTextView.setText(currentQuestion.getQuestionText());
-            option1.setText(currentQuestion.getOption1());
-            option2.setText(currentQuestion.getOption2());
-            option3.setText(currentQuestion.getOption3());
+
+            List<String> options = Arrays.asList(
+                    currentQuestion.getOption1(),
+                    currentQuestion.getOption2(),
+                    currentQuestion.getOption3()
+            );
+            Collections.shuffle(options);
+
+            option1.setText(options.get(0));
+            option2.setText(options.get(1));
+            option3.setText(options.get(2));
 
             option1.setClickable(true);
             option2.setClickable(true);
