@@ -12,8 +12,13 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -73,32 +78,41 @@ public class ScanActivity extends AppCompatActivity {
             return insets;
         });
 
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                // Request manage all files access permission
+                try {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    storageActivityResultLauncher.launch(intent);
+                } catch (Exception e) {
+                    Log.e("Error", "Unable to request manage all files access permission", e);
+                }
+            } else {
+                // External storage manager permission already granted
+                scanAPK();
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Request read external storage permission
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         REQUEST_PERMISSION);
             } else {
+                // Read external storage permission already granted
                 scanAPK();
             }
-        }
-
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
-            if(!Environment.isExternalStorageManager()){
-                try {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                    intent.addCategory("android.intent.category.DEFAULT");
-                    intent.setData(Uri.parse(String.format("package: %s", getApplicationContext().getPackageName())));
-                    startActivityIfNeeded(intent, 101);
-                } catch(Exception exception){
-                    Intent intent = new Intent();
-                    intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                    startActivityIfNeeded(intent, 101);
-                }
-            }
+        } else {
+            // No need for permission check on older Android versions
+            scanAPK();
         }
 
     }
+
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -114,6 +128,22 @@ public class ScanActivity extends AppCompatActivity {
             }
         }
     }
+
+    private ActivityResultLauncher<Intent> storageActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    if (Environment.isExternalStorageManager()) {
+                        // External storage manager permission granted
+                        scanAPK();
+                    } else {
+                        // Handle permission denied
+                        Log.d("Permission", "Manage all files access permission denied");
+                        showPermissionDeniedMessage();
+                    }
+                }
+            }
+    );
 
     private void showPermissionDeniedMessage() {
         runOnUiThread(() -> scanDetail.setText("Permission denied. Cannot scan for APK files."));
